@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+{% extends 'core/base.html'%}
+{% load static %}
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="{% static 'styles/index.css' %}"/>
+    <script src="https://kit.fontawesome.com/b55419cd6c.js"
+            crossorigin="anonymous"></script>
+</head>
+<body>
+    {% block content %}
+    <section class="home-container">
+        <div class="home__content">
+             <div class="rooms-container">
+                 <div class="rooms__header">
+                     <div class="rooms__count">
+                         <h2>Study Rooms</h2>
+                         <small>{{rooms_count}} Rooms Available</small>
+                     </div>
+                     <div class="rooms__create">
+                         <a  class="create-room" href="#">
+                             <i class="fa-solid fa-plus"></i>
+                             <p>Create</p>
+                         </a>
+                     </div>
+
+                 </div>
+                 <div class="rooms">
+                     <ul>
+                       {% for room in rooms %}
+                       <li>
+                          <div class="details">
+                              <a href="{% url 'profile' room.host.userprofile.user.id %}">
+                                  <img src="{% if room.host.userprofile.profile_pic %}{{ room.host.userprofile.image_url }}{% else %}{% static 'images/images.png' %}{% endif %}"/>
+                                  <p>@{{room.host.username}}</p>
+                              </a>
+                              <small>{{room.created_at|timesince}}</small>
+                          </div>
+                           <div class="room__name">
+                               <a href="{% url 'room' room.id %}">{{room.name}}</a>
+                           </div>
+                           <hr>
+                           <div class="room__topic">
+                               <small>{{room.participants.all.count}} joined</small>
+                               <p>{{room.topic}}</p>
+                           </div>
+                       </li>
+
+                       {% endfor %}
+                     </ul>
+                 </div>
+
+            </div>
+
+            <div class="activity-container">
+                <div class="activity__content">
+                    <h2>Recent Activity</h2>
+                    <div class="activity">
+                        <ul>
+                            {% for message in room_messages %}
+                            <li>
+                                <div class="activity__user">
+                                    <a href="{% url 'profile' message.user.userprofile.user.id %}">
+                                      <img src="{% if message.user.userprofile.profile_pic %}{{ message.user.userprofile.image_url }}{% else %}{% static 'images/images.png' %}{% endif %}"/>
+                                      <p>@{{message.user.username}}</p>
+                                    </a>
+                                    <small>{{message.created_at|timesince}}</small>
+                                </div>
+
+                                <div class="activity__room">
+                                    <a href="{% url 'room' message.room.id %}">replied to <span>"{{message.room.name}}"</span></a>
+                                </div>
+                                <div class="activity__message">
+                                    <p>{{message}}</p>
+                                </div>
+                            </li>
+                            {% endfor %}
+
+                        </ul>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+    <div class="create-room-overlay">
+        <div class="create-room__content">
+            <div class="create-room-form">
+                <div>
+                     <h5>Create Room</h5>
+                    <i class="fa-solid fa-xmark close-create-room"></i>
+                </div>
+
+                <form class="create-form" method="POST" action="/studybud/create-room">
+                    {% csrf_token %}
+                    <input type="text" name="name" placeholder="Room name.."/>
+                    <input type="text" name="topic" placeholder="Topic name..."/>
+                    <textarea name="description" placeholder="description"></textarea>
+                    <button type="text">Submit</button>
+                </form>
+            </div>
+
+        </div>
+
+    </div>
+    <script>
+         // create room
+
+        const form = document.querySelector('.create-form');
+        const createLink = document.querySelector('.create-room');
+        const closeForm = document.querySelector('.close-create-room');
+        const createRoomOverlay = document.querySelector(".create-room-overlay");
+
+        createLink.addEventListener('click', function(event){
+            event.preventDefault();
+            console.log('Working')
+            createRoomOverlay.style.display = "block";
+        });
+
+        closeForm.addEventListener('click', function(event){
+            event.preventDefault();
+            createRoomOverlay.style.display = "none";
+        });
+
+
+        form.addEventListener('submit', function(event) {
+            event.preventDefault();
+            const formData  = new FormData(form);
+            url = "/studybud/create-room/"
+
+            fetch(url, {
+                method: "POST",
+                body: formData,
+            })
+
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then((data) => {
+                if (data.success) {
+                    console.log('Success')
+                    createRoomOverlay.style.display = "none";
+                    window.location.reload();
+                    form.reset();
+                };
+            })
+        });
+    </script>
+
+{% endblock %}

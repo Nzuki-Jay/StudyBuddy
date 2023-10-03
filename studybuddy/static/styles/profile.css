@@ -1,0 +1,375 @@
+* {
+    padding: 0;
+    margin: 0;
+    text-decoration: none;
+    list-style: none;
+   color: var(--text-color);
+
+}
+
+:root {
+    --text-color: #ffffff;
+    --special-links: #636363;
+    --links-hover: #c8dfea;
+    --nav-background-color: #909090;
+    --search-bar: #B4B4B4;
+    --body-background-color: #365563;
+    --link-background: #537d90;
+    --hover-color: #779eb2;
+}
+
+
+/*------------------PROFILE CONTENT-----------*/
+
+/*------------------------ROOMS----------------------*/
+.profile-container .profile__content {
+    padding: 120px;
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+}
+
+.profile__content .profile {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.profile .user__profile {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    align-items: flex-start;
+}
+
+.user__profile .home-link a i {
+    font-size: 20px;
+}
+
+.user__profile .user-details {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    align-items: center;
+
+}
+
+.user-details img {
+    width: 150px;
+    height: 150px;
+    border: 3px solid var(--links-hover);
+    border-radius: 50%;
+}
+
+.user-details span {
+    font-size: 20px;
+    color: var(--links-hover);
+    font-weight: 700;
+}
+
+.user-details p {
+    font-size: 20px;
+    font-style: italics;
+    width: 600px;
+}
+
+
+.profile .profile__rooms ul {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.profile .profile__rooms ul li {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    width: 560px;
+    background: var(--link-background);
+    padding: 10px 20px;
+    box-shadow: 20px 0 24px rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+}
+
+.profile__rooms ul li .user-profile-details {
+     display: flex;
+     align-items: center;
+     justify-content: space-between;
+
+}
+
+.user-profile-details div:nth-child(1) {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.user-profile-details div:nth-child(1) a {
+    display: flex;
+    gap: 10px;
+}
+
+.user-profile-details div:nth-child(1) a img {
+    width: 30px;
+    height: 30px;
+    border: 2px solid var(--links-hover);
+    border-radius: 50%;
+}
+
+.user-profile-details  div:nth-child(1) a p {
+    color: var(--text-color);
+    font-weight: 700;
+}
+
+.user-profile-details  div:nth-child(1) a p:hover {
+     color: var(--links-hover);
+}
+
+.user-profile-details  div:nth-child(1) small {
+    margin-left: 40px;
+    margin-top: -20px;
+}
+
+.user-profile-details div:nth-child(2) {
+    display: flex;
+    gap: 15px;
+    margin-right: 40px;
+}
+
+.user-profile-details div:nth-child(2) i {
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.profile ul li .profile-room__name a {
+    font-size: 20px;
+    font-weight: 500;
+}
+
+.profile-room__name a:hover {
+     color: var(--links-hover);
+}
+
+.profile hr {
+    height: 1px;
+    background: var(--links-hover);
+    border: none;
+}
+
+.profile .profile-room__topic {
+     display: flex;
+     align-items: center;
+     justify-content: space-between;
+}
+
+.profile-room__topic p {
+    background: var(--hover-color);
+    padding: 10px 20px;
+    margin-right: 40px;
+    border-radius: 7px;
+}
+
+
+/*--------------------------ACTIVITY-----------------*/
+
+.profile__content .profile-activity-container .profile-activity__content {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    background: var(--link-background);
+    box-shadow: 20px 0 24px rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+}
+
+.profile-activity__content h2 {
+    padding: 10px 20px;
+    background: var(--hover-color);
+    border-radius: 8px 8px 0 0;
+}
+
+.profile-activity__content .profile-activity {
+    padding: 10px 20px;
+}
+
+.profile-activity__content .profile-activity ul {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.profile-activity__content .profile-activity ul li {
+    padding: 10px 20px;
+    border: 0.5px solid var(--links-hover);
+    border-radius: 8px;
+}
+
+.profile-activity ul li .profile-activity__user {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.profile-activity__user a {
+    display: flex;
+    gap: 10px;
+}
+
+.profile-activity__user a img {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: 2px solid var(--links-hover);
+}
+
+.profile-activity__user  small {
+    margin-left: 40px;
+    margin-top: -10px;
+}
+
+.profile-activity ul li .profile-activity__room {
+    margin: 10px 0;
+}
+
+.profile-activity__room a {
+    font-size: 20px;
+}
+
+.profile-activity__room a:hover span {
+    color: var(--links-hover);
+}
+
+.profile-activity ul li .profile-activity__message {
+    background: var(--hover-color);
+    border-radius: 5px;
+    padding: 10px 20px;
+    margin: 10px 0;
+}
+
+
+/*----------------------CREATE ROOM OVERLAY------------*/
+
+.update-room-overlay {
+    position: fixed;
+    z-index: 999;
+    left: 50%;
+    top: 100px;
+    bottom: 60%;
+    transform: translate(-50%, 50%);
+    display: none;
+}
+
+.update-room-overlay .update-room__content {
+    background: var(--link-background);
+    border-radius: 8px;
+    box-shadow: 10px 0 14px rgba(0, 0, 0, 0.2);
+    width: 600px;
+}
+
+.update-room__content .update-room-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.update-room__content .update-room-form div {
+    padding: 10px 20px;
+    background: var(--hover-color);
+    border-radius: 8px 8px 0 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.update-room-form div h5 {
+    font-size: 15px;
+}
+
+.update-room-form div i {
+    font-size: 20px;
+    cursor: pointer;
+}
+
+
+.update-room-form form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 0 20px 20px 20px;
+}
+
+.update-room-form form input {
+    width: 90%;
+    padding: 10px 20px;
+    background: var(--hover-color);
+    border: none;
+    border-radius: 5px;
+}
+
+
+.update-room-form form textarea {
+    width: 90%;
+    padding: 10px 20px;
+    background: var(--hover-color);
+    border: none;
+    border-radius: 5px;
+    height: 150px;
+}
+
+.update-room-form form button {
+    width: 97%;
+    padding: 10px 20px;
+    background: var(--hover-color);
+    border: none;
+    border-radius: 5px;
+}
+
+
+.update-room-form form button:hover {
+     background: transparent;
+    border: 1px solid var(--hover-color);
+}
+
+/*-----------------------delete overlay--------------------*/
+
+.delete-overlay {
+    display: none;
+    position: fixed;
+    z-index: 999;
+    left: 50%;
+    top: 50%;
+    bottom: 50%;
+    transform: translate(-50%, 50%);
+}
+
+
+.delete-overlay .delete-room__content {
+    background: var(--link-background);
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 10px 0 14px rgba(0, 0, 0, 0.3);
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.delete-room__content div:nth-child(1) h5 {
+    font-size: 17px;
+}
+
+.delete-room__content div:nth-child(2) {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.delete-room__content div:nth-child(2) button {
+    padding: 10px 20px;
+    background: var(--hover-color);
+    border: none;
+    border-radius: 8px;
+}
+
+.delete-room__content div:nth-child(2) button:hover {
+    background: transparent;
+    border: 1px solid var(--hover-color);
+}
+

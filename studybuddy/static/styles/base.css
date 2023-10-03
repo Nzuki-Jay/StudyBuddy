@@ -1,0 +1,297 @@
+* {
+    padding: 0;
+    margin: 0;
+    text-decoration: none;
+    list-style: none;
+   color: var(--text-color);
+
+}
+
+:root {
+    --text-color: #ffffff;
+    --special-links: #636363;
+    --links-hover: #c8dfea;
+    --nav-background-color: #909090;
+    --search-bar: #B4B4B4;
+    --body-background-color: #365563;
+    --link-background: #537d90;
+    --hover-color: #779eb2;
+}
+
+
+/*-----------------------NAV BAR--------------------*/
+
+nav {
+    background: var(--nav-background-color);
+    position: fixed;
+    top: 0;
+    z-index: 9999;
+    width: 100%;
+}
+
+.nav-container {
+    padding: 10px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+}
+
+.nav-container img {
+    width: 30px;
+    height: 30px;
+}
+
+
+.logo  {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.logo a {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.logo i {
+    color: var(--links-hover);
+    font-size: 30px;
+    cursor: pointer;
+}
+
+.nav-container .links {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.nav-container .links .profile-link  {
+    display: flex;
+    gap: 10px;
+}
+
+.nav-container .links .profile-link img {
+    border-radius: 50%;
+    border: 2px solid var(--links-hover);
+}
+
+.nav-container .links .profile-link p {
+    color: var(--links-hover);
+    font-weight: 700;
+    font-size: 15px;
+}
+
+.nav-container .links #profile-link p:hover {
+    color: var(--text-color);
+}
+
+.nav-container .links .login {
+    margin-left: 20px;
+     font-weight: 700;
+    transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.nav-container .links .login:hover {
+    transform: translateX(-5px);
+     color: var(--links-hover);
+}
+
+.nav-container #searchbar  {
+    width: 500px;
+    display: flex;
+    align-items: center;
+    border: none;
+    background:  var(--search-bar);
+    border-radius: 10px;
+
+}
+
+.nav-container #searchbar label {
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.nav-container #searchbar label input {
+    flex: 1;
+    border: none;
+    outline: none;
+    padding: 15px;
+    background-color:  var(--search-bar);
+    border-radius: 10px;
+    margin-left: 0;
+}
+
+.nav-container #searchbar label svg {
+    width: 20px;
+    height: 20px;
+    fill: var(--nav-background-color);
+    margin-right: 0;
+    margin-left: 10px;
+}
+
+.topics-container {
+    height: 100vh;
+    width: 300px;
+    position: fixed;
+    left: -300px;
+    top: 0;
+    z-index: 9999;
+    background: var(--nav-background-color);
+}
+
+.topics-container .topics__content {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 20px;
+}
+
+.topics__content h1 {
+    margin-top: 10px;
+}
+
+.topics-container .topics__content .topics {
+    max-height: calc(100vh - 230px);
+    overflow-y: auto;
+
+}
+
+.topics-container .topics__content .topics  ul {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.topics-container .topics__content .topics ul li {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 3rem;
+}
+
+.topics ul li a {
+    color: var(--links-hover);
+    font-weight: 700;
+    font-size: 15px;
+}
+
+.topics ul li a:hover {
+    color: var(--text-color);
+
+}
+
+.topics ul li p {
+    border-radius: 2px;
+    background: var(--link-background);
+    padding: 8px;
+    width: 30px;
+}
+
+.topics-container .topics__content .settings {
+    position: sticky;
+    border-top: 1px solid var(--links-hover);
+    bottom: 0;
+    width: 220px;
+    padding: 20px;
+    z-index: 9999;
+}
+
+.topics__content .settings div {
+    width: 70%;
+    padding: 15px 30px;
+    cursor: pointer;
+    background: var(--link-background);
+    border-radius: 2px;
+}
+
+.topics__content .settings div:hover {
+    background: var(--hover-color);
+}
+
+.settings div span {
+    display: flex;
+    margin: 0 30px;
+    gap: 10px;
+}
+
+
+body {
+     background: var(--body-background-color);
+}
+
+/*---------------update-profile-----------------*/
+
+.profile-overlay {
+    z-index: 999;
+    position: fixed;
+    left: 50%;
+    bottom: 70%;
+    top: 70px;
+    transform: translate(-50%, 50%);
+    display: none;
+}
+
+.profile-overlay .profile-content {
+    background: var(--link-background);
+    border-radius: 5px;
+    box-shadow: 20px 20px 30px rgba(0, 0, 0, 0.3);
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.profile-content div {
+    background: var(--hover-color);
+    border-radius: 8px 8px 0 0;
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+
+.profile-content form {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.profile-content form .bio-textarea {
+    width: 95%;
+    height: 100px;
+    font-size: 16px;
+    font-family: Arial, sans-serif;
+    line-height: 1.5;
+    padding: 10px;
+    margin-top: 10px;
+    background: var(--hover-color);
+    border-radius: 8px;
+    border: none;
+}
+
+.profile-content form .custom-file-input {
+    width: 90%;
+    height: 30px;
+    background: var(--hover-color);
+    border-radius: 10px;
+    border: none;
+    padding: 20px;
+    text-align: center;
+    margin-top: 10px;
+}
+
+.profile-content form button {
+    background: var(--hover-color);
+    border-radius: 10px;
+    border: none;
+    padding: 10px 20px;
+}
+
+.profile-content form button:hover {
+     background: transparent;
+     border: 1px solid var(--hover-color);
+}
+

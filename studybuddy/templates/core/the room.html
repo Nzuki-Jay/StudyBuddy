@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+{% extends 'core/base.html'%}
+{% load static %}
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="{% static 'styles/room.css' %}"/>
+    <script src="https://kit.fontawesome.com/b55419cd6c.js"
+            crossorigin="anonymous"></script>
+</head>
+<body>
+    {% block content %}
+
+     <section class="room-container">
+         <div class="room__content">
+             <div class="room__header">
+                 <a href="{% url 'index' %}">
+                     <i class="fa-solid fa-house"></i>
+                 </a>
+                 <h2>Study Room</h2>
+             </div>
+             <div class="room__host">
+                 <h1>{{the_room.name}}</h1>
+                 <h5>HOSTED BY</h5>
+                 <a href="{% url 'profile' the_room.host.userprofile.user.id %}">
+                      <img src="{% if the_room.host.userprofile.profile_pic %}{{ the_room.host.userprofile.image_url }}{% else %}{% static 'images/images.png' %}{% endif %}"/>
+                     <p>@{{the_room.host}}</p>
+                 </a>
+                 <p>
+                     {{the_room.description}}
+                 </p>
+             </div>
+             <div class="room__messages">
+                 <ul>
+                     {% for message in room_messages %}
+                     <li>
+                         <div class="message__details">
+                            <div class="message__user">
+                              <a href="{% url 'profile' message.user.userprofile.user.id %}">
+                                <img src="{% if message.user.userprofile.profile_pic %}{{ message.user.userprofile.image_url }}{% else %}{% static 'images/images.png' %}{% endif %}"/>
+                                 <p>@{{message.user.username}}</p>
+                             </a>
+                             <small>{{message.created_at|timesince}}</small>
+                             </div>
+                             {% if request.user == message.user %}
+                             <div class="message__delete">
+                                 <i data-message="{{message.id}}" id="delete-btn" class="fa-solid fa-xmark"></i>
+                             </div>
+                             {% endif %}
+
+                         </div>
+                          <div class="room__message">
+                             <p>{{message.body}}</p>
+                         </div>
+                         <hr>
+                         <div class="replies">
+                             <button class="open-reply-form">reply to @{{message.user}}</button>
+                             <button class="open-replies">view replies</button>
+                         </div>
+                         <div class="all-replies hidden">
+                             <button class="close-replies">close replies</button>
+                             <ul>
+                                 {% for reply in message.replies.all %}
+                                 <li>
+                                     <a href="{% url 'profile' reply.user.userprofile.user.id %}">
+                                         <p >@{{reply.user.username}}</p>
+                                         <small>{{reply.created_at|timesince}}</small>
+                                     </a>
+
+                                     <p>{{reply.body}}</p>
+                                 </li>
+                                 {% endfor %}
+
+                             </ul>
+                         </div>
+                         <div class="reply-form hidden">
+                             {% if request.user.is_authenticated %}
+                                 <form method="POST" action="{% url 'reply-message' message.id %}">
+                                     {% csrf_token %}
+                                    <textarea name="reply" placeholder="Write your reply here....">
+                                    </textarea>
+                                     <button type="submit">Send</button>
+
+                                 </form>
+                             {% endif %}
+                         </div>
+
+                     </li>
+                     {% endfor %}
+
+                 </ul>
+
+             </div>
+             <div class="comment-form">
+                 <h5>Comments</h5>
+                 {% if request.user.is_authenticated %}
+                 <form method="POST" action="">
+                     {% csrf_token %}
+                    <textarea name="message" placeholder="Write your comment here....">
+                    </textarea>
+                     <button type="submit">Send</button>
+
+                 </form>
+                 {% endif %}
+             </div>
+
+         </div>
+         <div class="room__participants">
+             <h2>Participants: <span>{{participants.all.count}}</span></h2>
+             <ul>
+                 {% for user in participants %}
+                 <li>
+                     <a href="{% url 'profile' user.userprofile.user.id %}">
+                             <img src="{% if user.userprofile.profile_pic %}{{ user.userprofile.image_url }}{% else %}{% static 'images/images.png' %}{% endif %}"/>
+                             <p>@{{user.username}}</p>
+                     </a>
+                     <p>{{user.username}}</p>
+                 </li>
+                 {% endfor %}
+
+             </ul>
+         </div>
+     </section>
+    <div class="overlay">
+        <div class="overlay__content">
+            <div>
+                <h5>Are you sure you want to delete this message??</h5>
+
+            </div>
+            <div>
+                <form method="POST" action="{% url 'delete-message' %}">
+                    {% csrf_token %}
+                    <input id="delete-input" type="hidden" name="delete-message" value="">
+                    <button type="submit" class="delete">Confirm</button>
+                </form>
+
+                 <button class="cancel">Cancel</button>
+            </div>
+
+        </div>
+
+    </div>
+
+    <script>
+        // delete room
+        const deleteBtns = document.querySelectorAll('#delete-btn');
+        const deletePrompt =  document.querySelector('.overlay');
+        const cancel = document.querySelector('.cancel');
+        const confirm = document.querySelector('.confirm');
+
+        for (let i = 0; i < deleteBtns.length; i++) {
+            deleteBtns[i].addEventListener('click', function(){
+                const messageId = this.dataset.message
+                document.querySelector('#delete-input').value = messageId
+                deletePrompt.style.display = "block";
+            });
+        }
+
+        cancel.addEventListener('click', function() {
+            deletePrompt.style.display = "none";
+        });
+
+        // opening and closing the reply part
+        const openReplys = document.querySelectorAll('.open-replies');
+        const closeReply = document.querySelectorAll('.close-replies');
+        const openReplyForm = document.querySelectorAll('.open-reply-form');
+        const replies = document.querySelectorAll('.all-replies');
+        const replyForm = document.querySelectorAll('.reply-form');
+        for (let i = 0; i < openReplys.length; i++) {
+            openReplys[i].addEventListener('click', function() {
+                console.log('open');
+                replies[i].classList.remove('hidden');
+                closeReply[i].addEventListener('click',  function() {
+                    console.log('close');
+                    replies[i].classList.add('hidden');
+                });
+            });
+        }
+
+        for (let i = 0; i < openReplyForm.length; i++) {
+            openReplyForm[i].addEventListener('click', function() {
+                const form = replyForm[i];
+                if (form) {
+                    if (form.classList.contains('hidden')) {
+                        console.log('open');
+                        form.classList.remove('hidden');
+                    } else {
+                        console.log('close');
+                        form.classList.add('hidden');
+                    }
+                }
+
+
+            });
+        }
+    </script>
+    {% endblock content %}
+</body>
+</html>

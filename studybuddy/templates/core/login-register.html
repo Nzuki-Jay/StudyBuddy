@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Study Buddy</title>
+        <link rel="stylesheet" href="{% static 'styles/login.css' %}"/>
+    </head>
+    <body>
+        <div class="container">
+            <div class="logo">
+                <img src="{% static 'images/favicon.ico'%}"/>
+                <h1>Study Buddy</h1>
+            </div>
+
+            {% if page == 'login' %}
+            <div class="login-form">
+                {% if message %}
+                    {{message}}
+                {% endif %}
+                <h1>Login</h1>
+                <form method="POST" action="">
+                    {% csrf_token %}
+                    {{form.as_p}}
+                    <button type="submit">Login</button>
+                </form>
+                <p>Not yet Registered??</p>
+                <a href="{% url 'register' %}">Sign Up</a>
+
+            </div>
+            {% else%}
+            <div class="login-form">
+                {% if message %}
+                    {{message}}
+                {% endif %}
+                <h1>Register</h1>
+                 <form method="POST" action="">
+                     {% csrf_token %}
+                     {{form.as_p}}
+                     <button class="reg-btn" type="submit">Register</button>
+                </form>
+                 <p>Already Registered??</p>
+                <a href="{% url 'login' %}">Sign In</a>
+            </div>
+            {% endif %}
+        </div>
+
+    </body>
+</html>

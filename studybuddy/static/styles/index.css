@@ -1,0 +1,301 @@
+* {
+    padding: 0;
+    margin: 0;
+    text-decoration: none;
+    list-style: none;
+   color: var(--text-color);
+
+}
+
+:root {
+    --text-color: #ffffff;
+    --special-links: #636363;
+    --links-hover: #c8dfea;
+    --nav-background-color: #909090;
+    --search-bar: #B4B4B4;
+    --body-background-color: #365563;
+    --link-background: #537d90;
+    --hover-color: #779eb2;
+}
+
+
+/*------------------------ROOMS----------------------*/
+.home-container .home__content {
+    padding: 120px;
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+}
+
+.home__content .rooms-container {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.rooms-container .rooms__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 600px;
+}
+
+.rooms__header .rooms__count {
+    display: flex;
+    flex-direction: column;
+}
+
+.rooms__count h2 {
+    color: var(--nav-background-color);
+}
+
+.rooms__header .rooms__create a {
+    display: flex;
+    gap: 5px;
+    padding: 10px 20px;
+    background: var(--links-hover);
+    border-radius: 5px;
+}
+
+.rooms__create i {
+    color: var(--body-background-color);
+}
+
+.rooms__create p {
+    color: var(--body-background-color);
+}
+
+.rooms-container .rooms ul {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.rooms-container .rooms ul li {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    width: 560px;
+    background: var(--link-background);
+    padding: 10px 20px;
+    box-shadow: 20px 0 24px rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+}
+
+.rooms ul li .details {
+     display: flex;
+     align-items: center;
+     justify-content: space-between;
+}
+
+.details a {
+    display: flex;
+    gap: 10px;
+}
+
+.details a img {
+    width: 30px;
+    height: 30px;
+    border: 2px solid var(--links-hover);
+    border-radius: 50%;
+}
+
+.details a p {
+    color: var(--text-color);
+    font-weight: 500;
+}
+
+.details a p:hover {
+     color: var(--links-hover);
+}
+
+.details small {
+    margin-right: 40px;
+}
+
+.rooms ul li .room__name a {
+    font-size: 20px;
+    font-weight: 500;
+}
+
+.room__name a:hover {
+     color: var(--links-hover);
+}
+
+.rooms hr {
+    height: 1px;
+    background: var(--links-hover);
+    border: none;
+}
+
+.rooms .room__topic {
+     display: flex;
+     align-items: center;
+     justify-content: space-between;
+}
+
+.room__topic p {
+    background: var(--hover-color);
+    padding: 10px 20px;
+    margin-right: 40px;
+    border-radius: 7px;
+}
+
+
+/*--------------------------ACTIVITY-----------------*/
+
+.home__content .activity-container .activity__content {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    background: var(--link-background);
+    box-shadow: 20px 0 24px rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+}
+
+.activity__content h2 {
+    padding: 10px 20px;
+    background: var(--hover-color);
+    border-radius: 8px 8px 0 0;
+}
+
+.activity__content .activity {
+    padding: 10px 20px;
+}
+
+.activity__content .activity ul {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.activity__content .activity ul li {
+    padding: 10px 20px;
+    border: 0.5px solid var(--links-hover);
+    border-radius: 8px;
+}
+
+.activity ul li .activity__user {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.activity__user a {
+    display: flex;
+    gap: 10px;
+}
+
+.activity__user a img {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: 2px solid var(--links-hover);
+}
+
+.activity__user  small {
+    margin-left: 40px;
+    margin-top: -10px;
+}
+
+.activity ul li .activity__room {
+    margin: 10px 0;
+}
+
+.activity__room a {
+    font-size: 20px;
+}
+
+.activity__room a:hover span {
+    color: var(--links-hover);
+}
+
+.activity ul li .activity__message {
+    background: var(--hover-color);
+    border-radius: 5px;
+    padding: 10px 20px;
+    margin: 10px 0;
+}
+
+
+/*----------------------CREATE ROOM OVERLAY------------*/
+
+.create-room-overlay {
+    position: fixed;
+    z-index: 999;
+    left: 50%;
+    top: 100px;
+    bottom: 60%;
+    transform: translate(-50%, 50%);
+    display: none;
+}
+
+.create-room-overlay .create-room__content {
+    background: var(--link-background);
+    border-radius: 8px;
+    box-shadow: 10px 0 14px rgba(0, 0, 0, 0.2);
+    width: 600px;
+}
+
+.create-room__content .create-room-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.create-room__content .create-room-form div {
+    padding: 10px 20px;
+    background: var(--hover-color);
+    border-radius: 8px 8px 0 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.create-room-form div h5 {
+    font-size: 15px;
+}
+
+.create-room-form div i {
+    font-size: 20px;
+    cursor: pointer;
+}
+
+
+.create-room-form form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 0 20px 20px 20px;
+}
+
+.create-room-form form input {
+    width: 90%;
+    padding: 10px 20px;
+    background: var(--hover-color);
+    border: none;
+    border-radius: 5px;
+}
+
+
+.create-room-form form textarea {
+    width: 90%;
+    padding: 10px 20px;
+    background: var(--hover-color);
+    border: none;
+    border-radius: 5px;
+    height: 150px;
+}
+
+.create-room-form form button {
+    width: 97%;
+    padding: 10px 20px;
+    background: var(--hover-color);
+    border: none;
+    border-radius: 5px;
+}
+
+
+.create-room-form form button:hover {
+     background: transparent;
+    border: 1px solid var(--hover-color);
+}

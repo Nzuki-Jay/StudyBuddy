@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+{% extends 'core/base.html'%}
+{% load static %}
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="{% static 'styles/profile.css' %}"/>
+    <script src="https://kit.fontawesome.com/b55419cd6c.js"
+            crossorigin="anonymous"></script>
+    <script>
+        const csrf_token = "{{ csrf_token }}"; // Include the CSRF token
+    </script>
+</head>
+<body>
+    {% block content %}
+    <section class="profile-container">
+        <div class="profile__content">
+             <div class="profile">
+                 <div class="user__profile">
+                     <div class="home-link">
+                         <a href="{% url 'index' %}">
+                            <i class="fa-solid fa-house"></i>
+                         </a>
+                     </div>
+                     <div class="user-details">
+
+                         <img src="{{user_profile.image_url}}"/>
+                         <span>@{{user_profile.user.username}}</span>
+                         <p>
+                           {{user_profile.bio}}
+                         </p>
+                     </div>
+
+                 </div>
+
+                 <div class="profile__rooms">
+                     <ul>
+                       {% for room in rooms %}
+                       <li>
+                          <div class="user-profile-details">
+                              <div>
+                                  <a href="#">
+                                      <img src="{% if room.host.userprofile.profile_pic %}{{ room.host.userprofile.image_url }}{% else %}{% static 'images/images.png' %}{% endif %}"/>
+                                      <p>@{{room.host.username}}</p>
+                                  </a>
+                                  <small>{{room.created_at|timesince}}</small>
+                              </div>
+                              {% if user_profile.user == room.host %}
+                              <div>
+                                  <i data-room="{{room.id}}" class="fa-regular fa-pen-to-square update-room"></i>
+                                  <i data-room="{{room.id}}" class="fa-regular fa-trash-can delete-room-btn"></i>
+                              </div>
+                              {% endif %}
+
+                          </div>
+                           <div class="profile-room__name">
+                               <a href="{% url 'room' room.id %}">{{room.name}}</a>
+                           </div>
+                           <hr>
+                           <div class="profile-room__topic">
+                               <small>{{room.participants.all.count}} joined</small>
+                               <p>{{room.topic}}</p>
+                           </div>
+                       </li>
+                        {% endfor %}
+
+
+
+                     </ul>
+                 </div>
+
+            </div>
+
+            <div class="profile-activity-container">
+                <div class="profile-activity__content">
+                    <h2>Recent Activity</h2>
+                    <div class="profile-activity">
+                        <ul>
+                            {% for message in messages %}
+                            <li>
+                                <div class="profile-activity__user">
+                                    <a href="#">
+                                      <img src="{% if message.user.userprofile.profile_pic %}{{ message.user.userprofile.image_url }}{% else %}{% static 'images/images.png' %}{% endif %}"/>
+                                      <p>@{{message.user.username}}</p>
+                                    </a>
+                                    <small>{{message.created_at|timesince}}</small>
+                                </div>
+
+                                <div class="profile-activity__room">
+                                    <a href="#">replied to <span>{{message.room.name}}</span></a>
+                                </div>
+                                <div class="profile-activity__message">
+                                    <p>{{message}}</p>
+                                </div>
+                            </li>
+
+                           {% endfor %}
+
+                        </ul>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+    <div class="update-room-overlay">
+        <div class="update-room__content">
+            <div class="update-room-form">
+                <div>
+                     <h5>Edit Room</h5>
+                    <i class="fa-solid fa-xmark close-update-room"></i>
+                </div>
+
+                <form class="update-form" method="POST" action="">
+                    {% csrf_token %}
+                    <input type="text" name="name" placeholder="Room name.." />
+                    <input type="text" name="topic" placeholder="Topic name..." />
+                    <textarea name="description" placeholder="description"></textarea>
+                    <button type="text">Update</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="delete-overlay">
+        <div class="delete-room__content">
+            <div>
+                <h5>Are you sure you want to delete this room??</h5>
+            </div>
+            <div>
+                <form method="POST" action="{% url 'delete-room' %}">
+                    {% csrf_token %}
+                    <input id="delete-room" type="hidden" name="delete-room" value="">
+                    <button type="submit" class="delete-room">Confirm</button>
+                </form>
+
+                 <button class="cancel-delete">Cancel</button>
+            </div>
+
+        </div>
+
+    </div>
+
+    <script>
+        // delete room
+        const deleteBtns = document.querySelectorAll('.delete-room-btn');
+        const deletePrompt =  document.querySelector('.delete-overlay');
+        const cancel = document.querySelector('.cancel-delete');
+        const confirm = document.querySelector('.delete-room');
+
+        for (let i = 0; i < deleteBtns.length; i++) {
+            deleteBtns[i].addEventListener('click', function() {
+                console.log('success')
+                const roomId = this.dataset.room
+                document.querySelector('#delete-room').value = roomId
+                deletePrompt.style.display = "block";
+            });
+        }
+
+        cancel.addEventListener('click', function() {
+            deletePrompt.style.display = "none";
+        });
+
+        // edit room
+        const form = document.querySelector('.update-form');
+        const closeForm = document.querySelector('.close-update-room');
+        const createRoomOverlay = document.querySelector(".update-room-overlay");
+        const updateRoomBtns = document.querySelectorAll('.update-room');
+        let roomId = null;
+        function openUpdateOverlay(roomId) {
+            fetch(`/studybud/update-room/${roomId}/`)
+                .then((response) => {
+                    console.log(response);
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then((data) => {
+                    console.log(data);
+                    if (data.success) {
+
+                        form.querySelector('input[name="name"]').value = data.room.name;
+                        form.querySelector('input[name="topic"]').value = data.room.topic['name'];
+                        form.querySelector('textarea[name="description"]').value = data.room.description;
+                        form.dataset.room = roomId;
+                    }
+                })
+
+            createRoomOverlay.style.display = "block";
+        }
+
+        for (let i = 0; i < updateRoomBtns.length; i++) {
+            updateRoomBtns[i].addEventListener('click', function(event) {
+                event.preventDefault();
+                console.log('Working')
+                const roomId = this.dataset.room;
+                openUpdateOverlay(roomId);
+            });
+        };
+
+        closeForm.addEventListener('click', function(event){
+            event.preventDefault();
+            createRoomOverlay.style.display = "none";
+        });
+
+        form.addEventListener('submit', function(event) {
+            event.preventDefault();
+            const updatedData = new FormData(form);
+            const roomId = form.dataset.room;
+            const url = `/studybud/update-room/${roomId}/`;
+            console.log('success');
+
+            fetch(url, {
+                method: "POST",
+                body: updatedData,
+                })
+                .then((response) => {
+                    console.log(response)
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then((data) => {
+                    console.log('Data:', data);
+                    if (data.success) {
+                        console.log('Success')
+                        createRoomOverlay.style.display = "none";
+                        window.location.reload();
+
+                    }
+                });
+        });
+
+
+    </script>
+   {% endblock content %}
+
+</body>
+</html>
